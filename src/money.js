@@ -1,16 +1,19 @@
 
 module.exports = class Money {
+  #ammount
+  #_currency
+
   constructor(ammount, currency) {
-    super.ammount = ammount
-    this._currency = currency
+    this.#ammount = ammount
+    this.#_currency = currency
   }
 
   getAmmount () {
-    return this.ammount
+    return this.#ammount
   }
   
   getCurrency () {
-    return this._currency
+    return this.#_currency
   }
 
   static dollar (ammount) {
