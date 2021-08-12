@@ -11,6 +11,10 @@ module.exports = class Dollar {
   }
 
   times (multiplier) {
-    this._setAmmout(this.ammount * multiplier)
+    return new Dollar(this.ammount * multiplier)
+  }
+
+  equals (other) {
+    return this._getAmmount() === other._getAmmount()
   }
 }
