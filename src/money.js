@@ -1,3 +1,4 @@
+const Sum = require('./sum')
 
 module.exports = class Money {
   #ammount
@@ -22,6 +23,14 @@ module.exports = class Money {
 
   static euro (ammount) {
     return new Money(ammount, 'EUR')
+  }
+
+  plus (addend) {
+    return new Sum(this, addend)
+  }
+
+  reduce () {
+    return this
   }
 
   equals (other) {
