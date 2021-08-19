@@ -24,7 +24,7 @@ describe('Money', () => {
     const five = Money.dollar(5)
     const sum = five.plus(five)
     const bank = new Bank()
-    const reduced = bank.reduced(sum, 'USD')
+    const reduced = bank.reduce(sum, 'USD')
     expect(reduced.equals(Money.dollar(10)))
   })
 
@@ -35,16 +35,35 @@ describe('Money', () => {
     expect(result.getAugend()).toEqual(five)
   })
   
-  it('should reduce a sum', () => {
+  it('should reduce from a sum', () => {
     const sum = new Sum(Money.dollar(3), Money.dollar(4))
     const bank = new Bank()
-    const result = bank.reduced(sum, 'USD')
+    const result = bank.reduce(sum, 'USD')
     expect(result.getAmmount()).toEqual(Money.dollar(7).getAmmount())
   })
 
   it('should reduce from a money', () => {
     const bank = new Bank()
-    const result = bank.reduced(Money.dollar(1), 'USD')
-    expect(result).toEqual(Money.dollar(1))
+    const result = bank.reduce(Money.dollar(1), 'USD')
+    expect(result.getAmmount()).toEqual(Money.dollar(1).getAmmount())
+  })
+
+  it('should reduce from different currencies', () => {
+    const bank = new Bank()
+    bank.addRate('EUR', 'USD', 2)
+    const result = bank.reduce(Money.euro(4), 'USD')
+    expect(result.getAmmount()).toEqual(Money.dollar(2).getAmmount())
+  })
+
+  it('should handle mixed additon', () => {
+    const fiveBucks = Money.dollar(5)
+    const tenEuros = Money.euro(10)
+    const bank = new Bank()
+    bank.addRate('EUR', 'USD', 2)
+    let result = bank.reduce(fiveBucks.plus(tenEuros), 'USD')
+    expect(result.getAmmount()).toEqual(Money.dollar(10).getAmmount())
+    bank.addRate('USD', 'EUR', 0.5)
+    result = bank.reduce(tenEuros.plus(fiveBucks), 'EUR')
+    expect(result.getAmmount()).toEqual(Money.euro(20).getAmmount())
   })
 })

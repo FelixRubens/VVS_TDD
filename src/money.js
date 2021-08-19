@@ -29,8 +29,9 @@ module.exports = class Money {
     return new Sum(this, addend)
   }
 
-  reduce () {
-    return this
+  reduce (to, bank) {
+    const rate = bank.actualRate(this.getCurrency(), to)
+    return new Money(this.getAmmount() / rate, to)
   }
 
   equals (other) {

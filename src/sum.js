@@ -4,7 +4,7 @@ module.exports = class Sum {
     this.augend = augend
     this.addend = addend
   }
-
+  
   getAugend () {
     return this.augend
   }
@@ -13,9 +13,10 @@ module.exports = class Sum {
     return this.addend
   }
   
-  reduce (currency) {
+  reduce (currency, bank) {
     const Money = require('./money') //por algum motivo fazer o require fora da classe nao esta funcionando
-    const ammount = this.getAugend().getAmmount() + this.getAddend().getAmmount()
+    const rate = bank.actualRate(this.getAddend().getCurrency(), currency)
+    const ammount = this.getAugend().getAmmount() + this.getAddend().getAmmount() / rate
     return new Money(ammount, currency)
   }
 }
