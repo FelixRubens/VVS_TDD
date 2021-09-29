@@ -24,7 +24,7 @@ module.exports = class Bank {
 
   addRate (from, to, rate) {
     const newRate = this.getRate()
-    newRate[`${from}-${to}`] = rate
+    newRate[`${from}-${to}`] = rate * 2
     this.setRate(newRate)
   }
 
